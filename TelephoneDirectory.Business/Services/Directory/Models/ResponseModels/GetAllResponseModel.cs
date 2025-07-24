@@ -2,7 +2,7 @@
 
 namespace TelephoneDirectory.Business.Services.Directory.Models.ResponseModels
 {
-    class GetAllResponseModel
+    public class GetAllResponseModel
     {
         public int Id { get; set; }
         public string FirstName { get; set; }

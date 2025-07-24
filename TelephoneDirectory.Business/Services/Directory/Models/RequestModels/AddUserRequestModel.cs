@@ -2,9 +2,8 @@
 
 namespace TelephoneDirectory.Business.Services.Directory.Models.RequestModels
 {
-    class AddUserRequestModel
+    public class AddUserRequestModel
     {
-
         [Required(ErrorMessage = "First name is required.")]
         public string FirstName { get; set; }
 

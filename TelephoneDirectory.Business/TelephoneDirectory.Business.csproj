@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\TelephoneDirectory.Core\TelephoneDirectory.Core.csproj" />
+    <ProjectReference Include="..\TelephoneDirectory.DataAccess\TelephoneDirectory.DataAccess.csproj" />
   </ItemGroup>
 
   <ItemGroup>

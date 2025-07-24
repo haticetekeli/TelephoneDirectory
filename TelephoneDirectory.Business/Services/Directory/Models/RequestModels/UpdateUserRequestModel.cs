@@ -2,7 +2,7 @@
 
 namespace TelephoneDirectory.Business.Services.Directory.Models.RequestModels
 {
-    class UpdateUserRequestModel
+    public class UpdateUserRequestModel
     {
         [Required(ErrorMessage = "User ID is required.")]
         public int Id { get; set; }

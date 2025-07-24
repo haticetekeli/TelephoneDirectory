@@ -3,60 +3,87 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TelephoneDirectory.Core.ResponseManager;
+using Microsoft.AspNetCore.Mvc;
+using System.Net;
+using Microsoft.AspNetCore.Authorization;
+using System.Runtime.InteropServices;
+using TelephoneDirectory.Core;
 
-namespace TelephoneDirectory.Core.Controllers
+
+[ApiController]
+[Authorize]
+[Route("api/[controller]")]
+public abstract class BaseController : TelephoneDirectory.Core.ControllerBase
 {
-    class BaseController
+
+
+    protected IActionResult HandleResponse(BaseResponseModel responseModel)
     {
-        public BaseController()
+        if (responseModel.StatusCode == (int)HttpStatusCode.OK)
         {
+            return Ok(responseModel);
         }
-        protected void Log(string message)
+        else if (responseModel.StatusCode == (int)HttpStatusCode.BadRequest)
         {
-            Console.WriteLine($"Log: {message}");
+            return BadRequest(responseModel);
         }
-        protected void HandleError(Exception ex)
+        else
         {
-            Console.WriteLine($"Error: {ex.Message}");
+            return StatusCode((int)HttpStatusCode.InternalServerError, responseModel);
         }
-        protected void ValidateModel(object model)
+    }
+
+    private IActionResult StatusCode(int ınternalServerError, BaseResponseModel responseModel)
+    {
+        throw new NotImplementedException();
+    }
+
+    private IActionResult BadRequest(BaseResponseModel responseModel)
+    {
+        throw new NotImplementedException();
+    }
+
+    private IActionResult Ok(BaseResponseModel responseModel)
+    {
+        throw new NotImplementedException();
+    }
+
+    protected IActionResult HandleResponse<T>(BaseResponseModel<T> responseModel)
+    {
+        if (responseModel.StatusCode == (int)HttpStatusCode.OK)
         {
-            if (model == null)
-            {
-                throw new ArgumentNullException(nameof(model), "Model cannot be null");
-            }
+            return Ok(responseModel);
         }
-        protected void SetResponse<T>(T data, string message = null)
+        else if (responseModel.StatusCode == (int)HttpStatusCode.BadRequest)
         {
-            Console.WriteLine($"Response Data: {data}, Message: {message}");
+            return BadRequest(responseModel);
         }
-        protected void SetErrorResponse(string errorMessage)
+        else
         {
-            Console.WriteLine($"Error Response: {errorMessage}");
+            return StatusCode((int)HttpStatusCode.InternalServerError, responseModel);
         }
-        protected void SetNotFoundResponse(string message)
-        {
-            Console.WriteLine($"Not Found Response: {message}");
-        }
-        protected void SetBadRequestResponse(string message)
-        {
-            Console.WriteLine($"Bad Request Response: {message}");
-        }
-        protected void SetSuccessResponse(string message)
-        {
-            Console.WriteLine($"Success Response: {message}");
-        }
-        protected void SetCreatedResponse(string message)
-        {
-            Console.WriteLine($"Created Response: {message}");
-        }
-        protected void SetNoContentResponse()
-        {
-            Console.WriteLine("No Content Response");
-        }
-        protected void SetUnauthorizedResponse(string message)
-        {
-            Console.WriteLine($"Unauthorized Response: {message}");
-        }
-        }
+    }
+
+    private IActionResult StatusCode<T>(int ınternalServerError, BaseResponseModel<T> responseModel)
+    {
+        throw new NotImplementedException();
+    }
+
+    private IActionResult BadRequest<T>(BaseResponseModel<T> responseModel)
+    {
+        throw new NotImplementedException();
+    }
+
+    private IActionResult Ok<T>(BaseResponseModel<T> responseModel)
+    {
+        throw new NotImplementedException();
+    }
+}
+
+namespace TelephoneDirectory.Core
+{
+    public class ControllerBase
+    {
+    }
 }
