@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using TelephoneDirectory.DataAccess.TelephoneDirectoryDbContexts;
@@ -11,9 +12,11 @@ using TelephoneDirectory.DataAccess.TelephoneDirectoryDbContexts;
 namespace TelephoneDirectory.DataAccess.Migrations
 {
     [DbContext(typeof(TelephoneDirectoryDbContext))]
-    partial class TelephoneDirectoryDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250727205709_secmig")]
+    partial class secmig
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
