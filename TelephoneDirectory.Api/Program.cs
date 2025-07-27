@@ -65,9 +65,3 @@ namespace TelephoneDirectory.Api
     }
 }
 
-namespace TelephoneDirectory.Api
-{
-    class Encoding
-    {
-    }
-}
