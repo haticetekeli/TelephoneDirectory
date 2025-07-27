@@ -1,18 +1,40 @@
+﻿using System.Text;
+using TelephoneDirectory.Api;
 using TelephoneDirectory.Business;
 using TelephoneDirectory.DataAccess;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
 builder.Services.AddControllers();
-builder.Services.DataAccessRegistration(builder.Configuration);
-builder.Services.BusinessRegistration();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.DataAccessRegistration(builder.Configuration); // Pass the required 'configuration' parameter
+builder.Services.AddControllers();
+builder.Services.BusinessRegistration();
+builder.Services.AddHttpContextAccessor();
+builder.Services.Configure<ConfigurationModel>(x => builder.Configuration.GetSection("AppSettings").Bind(x));
 
 
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(options =>
+    {
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuer = true,
+            ValidateAudience = true,
+            ValidateLifetime = true,
+            ValidateIssuerSigningKey = true,
+            ValidIssuer = builder.Configuration["AppSettings:Issuer"],
+            ValidAudience = builder.Configuration["AppSettings:Audience"],
+            IssuerSigningKey = new Microsoft.IdentityModel.Tokens.SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(builder.Configuration["AppSettings:Token"]))
+        };
+
+    });
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -29,3 +51,23 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
+
+namespace TelephoneDirectory.Api
+{
+    class SymmetricSecurityKey
+    {
+        private object value;
+
+        public SymmetricSecurityKey(object value)
+        {
+            this.value = value;
+        }
+    }
+}
+
+namespace TelephoneDirectory.Api
+{
+    class Encoding
+    {
+    }
+}
