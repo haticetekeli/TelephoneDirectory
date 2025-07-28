@@ -4,6 +4,8 @@ using TelephoneDirectory.Business;
 using TelephoneDirectory.DataAccess;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
+using TelephoneDirectory.DataAccess.TelephoneDirectoryDbContexts;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -19,6 +21,9 @@ builder.Services.BusinessRegistration();
 builder.Services.AddHttpContextAccessor();
 builder.Services.Configure<ConfigurationModel>(x => builder.Configuration.GetSection("AppSettings").Bind(x));
 
+builder.Services.AddDbContext<TelephoneDirectoryDbContext>(options =>
+    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"),
+        b => b.MigrationsAssembly("TelephoneDirectory.DataAccess")));
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>

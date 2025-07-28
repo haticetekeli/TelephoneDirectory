@@ -14,8 +14,10 @@ namespace TelephoneDirectory.DataAccess.TelephoneDirectoryDbContexts
         }
 
 
-    DbSet<User> Users { get; set; }
+        public DbSet<User> Users { get; set; }
+        public DbSet<UserDetail> UsersDetails { get; set; }
         DbSet<TelephoneDirectory.DataAccess.Entities.Directory> Directories { get; set; }
+        
 
         public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
         {
