@@ -1,8 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Design;
-using Microsoft.Extensions.Configuration;
 using TelephoneDirectory.DataAccess.Entities;
-using System.IO;
 
 namespace TelephoneDirectory.DataAccess.TelephoneDirectoryDbContexts
 {

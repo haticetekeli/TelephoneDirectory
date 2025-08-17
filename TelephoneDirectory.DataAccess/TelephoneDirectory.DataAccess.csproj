@@ -24,10 +24,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Repositories\Concrete\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\TelephoneDirectory.Core\TelephoneDirectory.Core.csproj" />
   </ItemGroup>
 

@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore;
 var builder = WebApplication.CreateBuilder(args);
 
 // 1️⃣ Servisleri ekle
-builder.Services.AddControllers(); // << burası app.Build() öncesinde olmalı
+builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.DataAccessRegistration(builder.Configuration);
@@ -38,10 +38,20 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
         };
     });
 
-// 2️⃣ Uygulamayı build et
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAngularDev", policy =>
+    {
+        policy.WithOrigins("http://localhost:4200") // Angular portu
+              .AllowAnyHeader()
+              .AllowAnyMethod();
+    });
+});
+
+
 var app = builder.Build();
 
-// 3️⃣ Middleware ve endpoint’leri ekle
 app.UseCors("AllowAngularDev");
 
 if (app.Environment.IsDevelopment())
@@ -51,9 +61,9 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-app.UseAuthentication(); // Auth middleware unutma
+app.UseAuthentication();
 app.UseAuthorization();
 
-app.MapControllers(); // Controller’ları map et
+app.MapControllers();
 
 app.Run();
